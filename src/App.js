@@ -8,24 +8,38 @@ const emojiDictionary = {
   '💖': 'love'
 };
 
+// creating the array of keys from emojiDictionary
+const emojis = Object.keys(emojiDictionary);
+
 function App() {
 
   let [emojiMeaning, setEmoji] = useState("");
 
-  function emojiHandeler(event){
+  // this function checks what emoji is being searched by the user
+  function emojiHandeler(event) {
+
     let userInput = event.target.value;
 
     emojiMeaning = emojiDictionary[userInput];
-    // console.log(emojiMeaning);
-    if(userInput in emojiDictionary){
+
+    if (userInput in emojiDictionary) {
       setEmoji(emojiMeaning);
-    }else {
+    } else {
       emojiMeaning = `we don't have this emoji in our database`;
       setEmoji(emojiMeaning);
     }
+  }
 
-    // setUserInput(userInput);
-    // console.log(userInput);
+  function emojiClickHandeler(index) {
+    // console.log(emojis[index]);
+
+    let userInput = emojis[index];
+    emojiMeaning = emojiDictionary[userInput];
+
+    if(userInput in emojiDictionary){
+      // console.log("yes");
+      setEmoji(emojiMeaning);
+    }
   }
 
   return (
@@ -33,7 +47,16 @@ function App() {
       <h1>emoji interpreter</h1>
       {/* <button onClick={myLikesCounter}>like</button> {likeCounter} */}
       <input class="userInput" type="text" name="userInput" onChange={emojiHandeler} />
-      <h2>😀 😥 💌 💖</h2>
+
+      <div style={{ padding: "10px" }} >
+        {
+          emojis.map(function (emoji, index) {
+            // console.log(emoji);
+            return <span onClick={() => emojiClickHandeler(index)} style={{ padding: '1rem', cursor: 'pointer', fontSize: '25px' }} >{emoji}</span>
+          })
+        }
+      </div>
+
       <h2> this is a {emojiMeaning} emoji</h2>
     </div>
   );
